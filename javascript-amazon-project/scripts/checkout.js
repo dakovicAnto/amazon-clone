@@ -12,20 +12,28 @@ import { loadCart } from "../data/cart.js";
 // await lets us wait for a promise to finish before going
 // to the next line
 async function loadPage(){
-    await loadProductsFetch(); // lets us write async code like normal code
-    // zamjenjuje
-   /*  loadProductsFetch().then(() =>{
+    try{
+        //throw 'error1';
+        await loadProductsFetch(); // lets us write async code like normal code
+        // zamjenjuje
+    /*  loadProductsFetch().then(() =>{
 
-    }) */
+        }) */
 
-    // with AsyncAwait we can save whatever is resolved
-    // inside var
-    const value = await new Promise((reslove) =>{
-         loadCart(() =>{
-            reslove('value3');
-         });
-    });
+        // with AsyncAwait we can save whatever is resolved
+        // inside var
+        // reject lets us create an error in the future
+        const value = await new Promise((reslove, reject) =>{
+            // throw 'error2';
+            loadCart(() =>{
+                //reject('error3');
+                reslove('value3');
+            });
+     });
 
+    } catch(error){
+        console.log('Unexpected error. Please try again later');
+    }
     renderOrderSummary();
     renderPaymentSummary();
     renderCheckoutHeader();
