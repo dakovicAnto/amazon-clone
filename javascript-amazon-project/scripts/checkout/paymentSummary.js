@@ -2,6 +2,7 @@ import { cart, calculateCartQuantity } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import formatCurrency from "../utils/money.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderPaymentSummary() {
     
@@ -69,12 +70,53 @@ export function renderPaymentSummary() {
                 totalCents)}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="place-order-button button-primary
+          js-place-order">
             Place your order
           </button>
    `;
 
    document.querySelector('.js-payment-summary')
     .innerHTML = paymentSummaryHTML;
+    document.querySelector('.js-place-order')
+              .addEventListener('click', async ()=>{
+                try{
+                    //when we click this button make a request to the backend
+                  // to create the order
+                  // we need to send some data to the backend
+                  //(we need to send our cart) -> use POST request
+                  //headers gives the backend more information about our request
+                  // and this needed when we are sending data to the backend
+                  // this will wait fetch to get response from backend
+                  // and then it will go to bext line
+                  const response = await fetch('https://supersimplebackend.dev/orders', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    // the actual data we re sending
+                    body: JSON.stringify({
+                      cart: cart
+                    })
+                  });
+                  // this is alo a promise  so we can use await
+                  // this will give us the data  that was attached to
+                  //  the response which should be order created by backend
+                  const order = await response.json();
+
+                  // after we crate an order from backend we are gonna
+                  // add it to array and save it to localStorage
+                  addOrder(order);
+
+                } catch(error){
+                  console.log('Unexpected error. Try again later');
+                }
+
+                //3. After we create an order go to the orders page
+                // special JS object and lets us control URL of the browser
+
+                window.location.href = 'orders.html';
+                
+              });
 
 }
