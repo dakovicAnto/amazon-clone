@@ -1,4 +1,4 @@
-import { cart, calculateCartQuantity } from "../../data/cart.js";
+import { cart, calculateCartQuantity, clearCart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import formatCurrency from "../utils/money.js";
@@ -78,15 +78,24 @@ export function renderPaymentSummary() {
 
    document.querySelector('.js-payment-summary')
     .innerHTML = paymentSummaryHTML;
-    document.querySelector('.js-place-order')
-              .addEventListener('click', async ()=>{
+
+    const btnPlaceOrderElement = document.querySelector('.js-place-order');
+
+    if(cart.length === 0){
+      btnPlaceOrderElement.classList.add('place-order-disabled');
+    } else {
+      btnPlaceOrderElement.classList.remove('place-order-disabled');
+    }
+    
+  
+    btnPlaceOrderElement.addEventListener('click', async ()=>{
                 try{
                     //when we click this button make a request to the backend
                   // to create the order
                   // we need to send some data to the backend
                   //(we need to send our cart) -> use POST request
                   //headers gives the backend more information about our request
-                  // and this needed when we are sending data to the backend
+                  // and this is needed when we are sending data to the backend
                   // this will wait fetch to get response from backend
                   // and then it will go to bext line
                   const response = await fetch('https://supersimplebackend.dev/orders', {
@@ -94,7 +103,7 @@ export function renderPaymentSummary() {
                     headers: {
                       'Content-Type': 'application/json'
                     },
-                    // the actual data we re sending
+                    // the actual data we are sending
                     body: JSON.stringify({
                       cart: cart
                     })
@@ -114,8 +123,10 @@ export function renderPaymentSummary() {
 
                 //3. After we create an order go to the orders page
                 // special JS object and lets us control URL of the browser
-
+                clearCart();
                 window.location.href = 'orders.html';
+                 
+                //clear the cart when place order
                 
               });
 

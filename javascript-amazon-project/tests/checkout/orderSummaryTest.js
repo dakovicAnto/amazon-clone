@@ -16,10 +16,13 @@ describe('test suite: renderOrderSummary', () =>{
     // Jasmine feature - done() f - when we add done parameter beforeAll
     // will not automatically go to the next step
     // it will only go to next step when we call this done f
-    beforeAll((done) =>{
-        loadProductsFetch().then(() =>{
+    beforeAll(async () =>{
+        //18j. zamjenjuje 
+        await loadProductsFetch();
+
+     /*    loadProductsFetch().then(() =>{
             done();
-        });
+        }); */
     });
        /*  loadProducts(() =>{
             // when the products load, then go further with code

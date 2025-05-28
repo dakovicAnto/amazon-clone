@@ -210,6 +210,11 @@
   margin-bottom: 15px;
 }
 
+.place-order-disabled{
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 /* 14g. */
 .quantity-input{
   width: 30px;

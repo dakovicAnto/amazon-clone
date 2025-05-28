@@ -2,34 +2,54 @@ import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 import { loadProducts, loadProductsFetch } from "../data/products.js";
-import { loadCart } from "../data/cart.js";
+import { loadCart, loadCartFetch } from "../data/cart.js";
 //import '../data/cart-class.js'; 
 //import '../data/backend-practice.js';
+
+
+//18i.
+async function loadPage(){
+    try{
+        await Promise.all([
+        loadProductsFetch(),
+        //loadCartFetch()
+    ]);
+    } catch(error){
+        console.log('Unexpected error. Please try again later');
+    }
+
+    renderOrderSummary();
+    renderPaymentSummary();
+    renderCheckoutHeader();
+}
 
 
 //ASYNC AWAIT  - makes a f return a promise
 // What is point od this feature? - Async lets us use Await
 // await lets us wait for a promise to finish before going
 // to the next line
-async function loadPage(){
+/* async function loadPage(){
     try{
         //throw 'error1';
         await loadProductsFetch(); // lets us write async code like normal code
         // zamjenjuje
-    /*  loadProductsFetch().then(() =>{
+      loadProductsFetch().then(() =>{
 
-        }) */
+        }) 
+
+        //18h. umjesto loadCart()
+        await loadCartFetch();
 
         // with AsyncAwait we can save whatever is resolved
         // inside var
         // reject lets us create an error in the future
-        const value = await new Promise((reslove, reject) =>{
+         const value = await new Promise((reslove, reject) =>{
             // throw 'error2';
             loadCart(() =>{
                 //reject('error3');
                 reslove('value3');
             });
-     });
+     }); 
 
     } catch(error){
         console.log('Unexpected error. Please try again later');
@@ -38,7 +58,7 @@ async function loadPage(){
     renderPaymentSummary();
     renderCheckoutHeader();
 
-}
+} */
 
 loadPage();
 

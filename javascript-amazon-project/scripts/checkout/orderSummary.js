@@ -50,7 +50,7 @@ console.log(deliveryDate.format('dddd, MMMM D')); */
       <div class="cart-item-container js-cart-item-container
         js-cart-item-container-${matchingProduct.id}">
               <div class="delivery-date">
-                Delivery date: ${calculateDeliveryDate(deliveryOption)}
+                Delivery date: ${calculateDeliveryDate(deliveryOption)[0]}
               </div>
 
               <div class="cart-item-details-grid">
@@ -115,7 +115,7 @@ console.log(deliveryDate.format('dddd, MMMM D')); */
     let html = '';
     deliveryOptions.forEach((deliveryOption) =>{
       
-      const dateString = calculateDeliveryDate(deliveryOption);
+      const dateString = calculateDeliveryDate(deliveryOption)[0];
 
       const price = deliveryOption.priceCents;
       let priceString = '';

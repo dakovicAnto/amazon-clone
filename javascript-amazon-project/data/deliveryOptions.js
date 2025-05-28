@@ -102,9 +102,12 @@ export function calculateDeliveryDate(deliveryOption){
     
         if(deliveryDay === 'Saturday'){
           deliveryDate = deliveryDate.add(2, 'days');
+          finalDaysToAdd+=2;
           
         } else{
           deliveryDate = deliveryDate.add(1, 'days');
+          finalDaysToAdd+=1;
+
         }
       }
 
@@ -113,5 +116,5 @@ export function calculateDeliveryDate(deliveryOption){
     'dddd, MMMM D'
   );
 
-    return dateString;
+    return [dateString, finalDaysToAdd];
 }

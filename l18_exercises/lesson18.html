@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>18a. - 18g.</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="" rel="stylesheet" type="text/css">
+        
+        <style>
+            
+        </style>
+
+    </head>
+
+    <body>
+        <script>
+            //18a. XMLHttpRequest()
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', () =>{
+                 console.log(xhr.response);
+            });
+
+            xhr.open('GET', 'https://supersimplebackend.dev/greeting');
+            xhr.send();
+
+
+            //18b. fetch()
+            const promise = fetch('https://supersimplebackend.dev/greeting')
+            .then((response) =>{
+                return response.text();
+            }).then((text) =>{
+                console.log(text);
+            });
+
+            //18c. fetch() with async await
+            async function getGreeting(){
+                const response =
+                 await fetch('https://supersimplebackend.dev/greeting');
+                
+                const text = await response.text();
+                console.log(text);
+            }
+
+            getGreeting();
+
+
+            // 18d. using fetch() and async await create POST
+            async function postGreeting(){
+                const response =
+                await fetch('https://supersimplebackend.dev/greeting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Anto Đaković'
+                    })
+                });
+
+                const text = await response.text();
+                console.log(text);
+            }
+
+            postGreeting();  
+
+            // 18e. demonstrating CORS error - your request was blocked by the backend
+            // 18f. add error handling to 18e. 
+            async function getAmazon(){
+                try{
+                    const response = await
+                    fetch('https://amazon.com');
+                    const text = response.text();
+                    console.log(text);
+                } catch(error){
+                    console.log(error + '\nYour request was blocked by the backend');
+                }
+                 
+            }
+
+            //getAmazon();
+
+
+            // 18g.
+            async function postGreetingNoData(){
+                try{
+                    const response = await
+                    fetch('https://supersimplebackend.dev/greeting', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }   
+                    })
+
+                     if(response.status >= 400){
+                        throw response;
+                    }
+
+                    const text = response.text();
+                    console.log(text);
+
+
+                } catch(error){
+                    if(error.status === 400){
+                        const errorMessage = await error.json();
+                        console.log(errorMessage);
+                    } else{
+                        console.log('Network error. Please try again later.');
+
+                    }
+                }
+            }
+
+            postGreetingNoData();
+            
+        </script>
+
+    </body>
+</html>

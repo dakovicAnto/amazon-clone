@@ -1,4 +1,5 @@
-import {formatCurrency} from '../scripts/utils/money.js'
+import {formatCurrency} from '../scripts/utils/money.js';
+
 
 // function for getting full product data from given productId
 export function getProduct(productId){
@@ -22,6 +23,7 @@ export class Product{
     name;
     rating;
     priceCents;
+    keywords;
 
     constructor(productDetails){
       this.id = productDetails.id;
@@ -29,6 +31,7 @@ export class Product{
       this.name = productDetails.name;
       this.rating = productDetails.rating;
       this.priceCents = productDetails.priceCents;
+      this.keywords = productDetails.keywords;
     }
 
     //methods for calculationg stars and price so we don't
@@ -188,7 +191,7 @@ export function loadProductsFetch(){
         return new Product(productDetails);
       });
 
-      console.log('load products');
+      console.log('load productsXX');
 
   }).catch((error) =>{
     // for handling errors in promises
